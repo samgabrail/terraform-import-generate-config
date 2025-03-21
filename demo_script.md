@@ -172,56 +172,42 @@ terraform apply
 terraform state list
 ```
 
-### 8. Making Changes via Terraform
+### 8. Destroying Resources with Terraform
 
-"Now that the VM is managed by Terraform, we can make changes using the Terraform workflow. For example, we could modify the configuration and apply changes."
+"Now that the VM is managed by Terraform, we can control its entire lifecycle. Let's demonstrate how to use Terraform to cleanly destroy the infrastructure."
 
-"Let's edit the generated configuration file to make some visible changes to our VM. I'll add some tags and change the hostname to demonstrate that Terraform is now managing this resource:"
-
-*[Open the generated_config.tf file and modify it]*
+"First, let's see what Terraform plans to do if we run the destroy command:"
 
 ```
-resource "upcloud_server" "imported_vm" {
-  # Existing configuration...
-  
-  hostname = "terraform-managed-vm"  # Change the hostname from the original
-  
-  # Add tags to the server
-  tags = [
-    "managed-by-terraform",
-    "demo-environment"
-  ]
-}
+terraform plan -destroy
 ```
 
-"Now let's apply these changes:"
+*[Show the plan output which indicates which resources will be destroyed]*
+
+"The plan shows that Terraform will destroy the UpCloud VM we've imported. This is a non-destructive preview - no actual changes have been made yet."
+
+"Now let's run the destroy command. In a real environment, you would want to be absolutely certain before proceeding, as this will permanently delete resources:"
 
 ```
-terraform plan
+terraform destroy
 ```
 
-*[Show the plan output which indicates the changes that will be made]*
+*[Show the destroy confirmation prompt and approve it]*
 
-"The plan shows that Terraform will update our VM with the new hostname and tags. Let's apply these changes:"
+*[Show the output of the destroy command]*
 
-```
-terraform apply
-```
+"Great! Terraform has sent the request to delete our VM. Let's verify this in the UpCloud console to confirm that our infrastructure has actually been removed."
 
-*[Show the apply output]*
+*[Navigate to the UpCloud web console and show that the VM is no longer there]*
 
-"Great! Terraform has successfully modified our VM. Now let's verify these changes in the UpCloud console to confirm that our infrastructure has actually been updated."
-
-*[Navigate to the UpCloud web console and show the VM details]*
-
-"As you can see, the VM now has the new hostname 'terraform-managed-vm' and the tags we specified. This confirms that Terraform is now successfully managing our infrastructure."
+"As you can see, the VM has been successfully removed from our UpCloud account. This demonstrates the full lifecycle management capabilities of Terraform."
 
 "This is powerful because now we can:
-1. Track all changes to our infrastructure in version control
-2. Apply consistent changes across multiple environments
-3. Use CI/CD pipelines to automate infrastructure changes
-4. Collaborate on infrastructure changes with pull requests
-5. Roll back changes if needed"
+1. Define our infrastructure as code
+2. Version control our infrastructure definitions
+3. Reproduce environments consistently
+4. Clean up resources completely when they're no longer needed
+5. Automate the entire infrastructure lifecycle"
 
 ## Conclusion
 
@@ -236,4 +222,4 @@ The key benefits of the generate-config approach are:
 - Lower risk of errors in the import process
 - Faster onboarding of existing resources
 
-And once the infrastructure is imported, you can manage it completely through Terraform, as we demonstrated by making changes and seeing them reflected in the UpCloud console." 
+And once the infrastructure is imported, you have complete control over it through Terraform, as we demonstrated by destroying the resource and verifying its removal in the UpCloud console." 

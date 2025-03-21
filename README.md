@@ -64,32 +64,31 @@ This repository demonstrates how to import existing UpCloud resources into Terra
    terraform state list
    ```
 
-### Making Changes with Terraform
+### Destroying Resources with Terraform
 
-1. Edit the generated configuration file to make changes. For example, add tags or change the hostname:
+1. After successfully importing the VM, you can preview what would be destroyed:
    ```
-   resource "upcloud_server" "imported_vm" {
-     # Existing configuration...
-     
-     hostname = "renamed-vm"  # Change the hostname
-     
-     tags = [
-       "managed-by-terraform",
-       "demo"
-     ]
-   }
+   terraform plan -destroy
    ```
+   This allows you to see which resources will be removed without actually removing them.
 
-2. Apply the changes:
+2. When ready, destroy the infrastructure:
    ```
-   terraform apply
+   terraform destroy
    ```
+   Terraform will ask for confirmation before proceeding.
 
-3. Verify the changes in the UpCloud Console:
+3. Verify the destruction in the UpCloud Console:
    - Log into the UpCloud Console
    - Navigate to your Server list
-   - Check that the VM has been updated with the new hostname and tags
-   - This confirms that Terraform is now successfully managing your infrastructure
+   - Confirm that the VM has been completely removed
+   - This demonstrates that Terraform is now fully managing the resource lifecycle
+
+4. Benefits of using Terraform for destruction:
+   - Ensures clean removal of all resources
+   - Handles dependencies correctly (resources are destroyed in the right order)
+   - Provides auditability through plan and state files
+   - More reliable than manual deletion through the console
 
 ## Comparison of Approaches
 

@@ -13,7 +13,7 @@ provider "upcloud" {
 }
 
 # Import existing VM from UpCloud
-# import {
-#   to = upcloud_server.imported_vm
-#   id = "00000000-0000-0000-0000-000000000000" # This will be replaced with actual VM ID
-# }
+import {
+  to = upcloud_server.imported_vm
+  id = "000f751b-c4bf-4de4-b28c-4a6dabeb642a" # This will be replaced with actual VM ID
+}
